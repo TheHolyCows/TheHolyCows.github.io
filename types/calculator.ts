@@ -1,8 +1,8 @@
 export type Calculator = Calculation[]
 
 export class Calculation {
-  private inputs: CalculatorIO[]
-  private outputs: CalculatorIO[]
+  inputs: CalculatorIO[]
+  outputs: CalculatorIO[]
   calculate: (x: (number | null)[]) => CalculatorIO | CalculatorIO[] | null
 
   constructor(inputs: CalculatorIO[], outputs: CalculatorIO[], calculate: (x: (number | null)[]) => CalculatorIO | CalculatorIO[] | null) {

@@ -8,14 +8,14 @@ const geartrainCalculator: Calculator = [
         shortName: '# of Teeth',
         description: 'Number of Teeth',
         data: null,
-        mutable: false
+        mutable: true
       },
       {
         name: 'diametralPitch',
         shortName: 'DP',
         description: 'The ratio of the number of teeth to the pitch diameter',
         data: null,
-        mutable: false
+        mutable: true
       },
       {
         name: 'acceleratedWearConstant',
@@ -35,19 +35,31 @@ const geartrainCalculator: Calculator = [
       }
     ],
     (userInputs: (number | null)[]): CalculatorIO | null => {
-      const currentCalculation = geartrainCalculator[0]
-      const teethCount = currentCalculation.getInput('teethCount')
-      const diametralPitch = currentCalculation.getInput('diametralPitch')
-      const acceleratedWearConstant = currentCalculation.getInput('acceleratedWearConstant')
+      // const currentCalculation = this
+      // const teethCount = currentCalculation.getInput('teethCount')
+      // const diametralPitch = currentCalculation.getInput('diametralPitch')
+      const acceleratedWearConstant = 0.0025
+      const [userTeethCount, userDiametralPitch] = userInputs
+
+      console.log(userInputs)
 
       // Make sure all the inputs are valid before calculating
-      if (!teethCount?.data || !diametralPitch?.data || !acceleratedWearConstant?.data) return null
+      if (!userTeethCount || !userDiametralPitch) return null
 
-      const PD = (teethCount.data / diametralPitch.data) + acceleratedWearConstant.data
+      const PD = (userTeethCount / userDiametralPitch) + acceleratedWearConstant
 
-      currentCalculation.setOutput('pitchDiameter', PD)
+      return {
+        name: 'pitchDiameter',
+        shortName: 'PD',
+        description: ' ',
+        data: PD,
+        mutable: true
+      }
 
-      return currentCalculation.getOutput('pitchDiameter') ?? null
+      // currentCalculation.setOutput('pitchDiameter', PD)
+
+      // return currentCalculation.getOutput('pitchDiameter') ?? null
+
     }
   )
 ]
