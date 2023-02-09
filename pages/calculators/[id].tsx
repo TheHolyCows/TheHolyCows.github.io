@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Calculation, Calculator, CalculatorIO } from '../../types/calculator'
+import { Calculation, Calculator } from '../../types/calculator'
 
 type Props = {
   rawCalculatorData: Calculator
@@ -8,13 +8,12 @@ type Props = {
 function CalculatorPage(props: Props) {
   const { rawCalculatorData } = props
   const [calculator, setCalculator] = useState<Calculator>()
-  const [output, setOutput] = useState(0)
-  const [input, setInput] = useState<number[]>([])
+  const [outputs, setOutputs] = useState<number[]>([0])
+  const [inputs, setInputs] = useState<number[][]>([[0]])
 
-
+  
   useEffect(() => {
     if (!props.rawCalculatorData) {
-      console.log(';dwafesgrdtfghyjgref')
       return null as unknown as void
     }
 
@@ -39,8 +38,31 @@ function CalculatorPage(props: Props) {
     }
   }, [calculator])
 
-  function handleInput(e: HTMLInputElement) {
+  function handleInput(e: React.ChangeEvent<HTMLInputElement>, inputIndex: [number, number]) {
+    if (!calculator) return undefined
 
+    const userInput = parseFloat(e.target.value)
+
+    const newInputArray = inputs.map((v, i) => {
+      if (i === inputIndex[0]) {
+        v[inputIndex[1]] = userInput
+      }
+      return v
+    })
+    setInputs(newInputArray)
+
+    const newOutput = calculator[inputIndex[0]].calculate(newInputArray[inputIndex[0]])
+    console.log(newOutput)
+    const newOutputArray = outputs.map((v, i) => {
+      if (i === inputIndex[0]) {
+        v = newOutput?.data ?? 0
+      }
+      return v
+    })
+
+    setOutputs(newOutputArray)
+
+    console.log(outputs)
   }
 
   return (<>
@@ -51,27 +73,32 @@ function CalculatorPage(props: Props) {
       </h2>
 
 
-      {Object.values(calc.inputs).map((v) => {
-      if (v.mutable === false) {
-        return <></>
-      }
-      return <>
+      {Object.values(calc.inputs).map((v, j) => {
+        if (v.mutable === false) {
+          return <></>
+        }
+
+        return <>
           <p className='text-2xl'>
             {v.shortName}
           </p>
           <input
             type='number'
+            value={inputs[i][j]}
+            onChange={(e) => {
+              handleInput(e, [i, j])
+            }}
             placeholder={v.name}
           />
         </>
       })}
 
-      {Object.values(calc.outputs).map((v) => <>
+      {Object.values(calc.outputs).map((v, j) => <>
         <p>
           {v.shortName}
         </p>
          <p className='text-2xl'>
-          {output}
+          {outputs[j]}
         </p>
       </>)}
       

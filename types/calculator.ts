@@ -3,9 +3,9 @@ export type Calculator = Calculation[]
 export class Calculation {
   inputs: CalculatorIO[]
   outputs: CalculatorIO[]
-  calculate: (x: (number | null)[]) => CalculatorIO | CalculatorIO[] | null
+  calculate: (x: (number | null)[]) => CalculatorIO | null
 
-  constructor(inputs: CalculatorIO[], outputs: CalculatorIO[], calculate: (x: (number | null)[]) => CalculatorIO | CalculatorIO[] | null) {
+  constructor(inputs: CalculatorIO[], outputs: CalculatorIO[], calculate: (x: (number | null)[]) => CalculatorIO | null) {
     this.inputs = inputs
     this.outputs = outputs
     this.calculate = calculate
