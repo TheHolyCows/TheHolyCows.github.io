@@ -50,9 +50,10 @@ function CalculatorPage(props: Props) {
       return v
     })
     setInputs(newInputArray)
+    
+    // @ts-ignore 
+    const newOutput = (calculator[inputIndex[0]].calculate(newInputArray[inputIndex[0]]))(newInputArray[inputIndex[0]])
 
-    const newOutput = calculator[inputIndex[0]].calculate(newInputArray[inputIndex[0]])
-    console.log(newOutput)
     const newOutputArray = outputs.map((v, i) => {
       if (i === inputIndex[0]) {
         v = newOutput?.data ?? 0
@@ -61,40 +62,42 @@ function CalculatorPage(props: Props) {
     })
 
     setOutputs(newOutputArray)
-
-    console.log(outputs)
   }
 
   return (<>
     {calculator ? calculator.map((calc, i) => <>
     <div className='flex flex-col justify-center items-center'>
-      <h2 className='text-xl text-center mx-auto mb-4'>
+      <h2 className='text-xl text-center mx-auto mb-4 rounded-md'>
         Calculator
       </h2>
 
+      <div className='flex text-center'>
+        {Object.values(calc.inputs).map((v, j) => {
+          if (v.mutable === false) {
+            return <></>
+          }
 
-      {Object.values(calc.inputs).map((v, j) => {
-        if (v.mutable === false) {
-          return <></>
-        }
-
-        return <>
-          <p className='text-2xl'>
-            {v.shortName}
-          </p>
-          <input
-            type='number'
-            value={inputs[i][j]}
-            onChange={(e) => {
-              handleInput(e, [i, j])
-            }}
-            placeholder={v.name}
-          />
-        </>
-      })}
+          return <>
+            <div className='px-4 py-2 m-4 bg-brand-dark-grey rounded-3xl neumorphic-shadow'>
+              <p className='text-2xl'>
+                {v.shortName}
+              </p>
+              <input
+                type='number'
+                className='bg-brand-offwhite p-2'
+                value={inputs[i][j]}
+                onChange={(e) => {
+                  handleInput(e, [i, j])
+                }}
+                placeholder={v.name}
+              />
+            </div>
+          </>
+        })}
+      </div>
 
       {Object.values(calc.outputs).map((v, j) => <>
-        <p>
+        <p className='text-2xl'>
           {v.shortName}
         </p>
          <p className='text-2xl'>
@@ -129,7 +132,6 @@ export async function getServerSideProps({ params }: { params: { id: string } })
       })
     }
   }
-  
 }
 
 export default CalculatorPage
