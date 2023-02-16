@@ -65,12 +65,9 @@ function CalculatorPage(props: Props) {
   }
 
   return (<>
+  <div className='min-h-screen bg-brand-offwhite'>
     {calculator ? calculator.map((calc, i) => <>
     <div className='flex flex-col justify-center items-center'>
-      <h2 className='text-xl text-center mx-auto mb-4 rounded-md'>
-        Calculator
-      </h2>
-
       <div className='flex text-center'>
         {Object.values(calc.inputs).map((v, j) => {
           if (v.mutable === false) {
@@ -82,6 +79,7 @@ function CalculatorPage(props: Props) {
               <p className='text-2xl'>
                 {v.shortName}
               </p>
+              
               <input
                 type='number'
                 className='bg-brand-offwhite p-2'
@@ -113,6 +111,8 @@ function CalculatorPage(props: Props) {
       </h2>
     </>
     }
+    
+  </div>
   </>)
 }
 

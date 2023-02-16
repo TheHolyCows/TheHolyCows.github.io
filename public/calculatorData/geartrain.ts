@@ -35,9 +35,6 @@ const geartrainCalculator: Calculator = [
       }
     ],
     (userInputs: (number | null)[]): CalculatorIO | null => {
-      // const currentCalculation = this
-      // const teethCount = currentCalculation.getInput('teethCount')
-      // const diametralPitch = currentCalculation.getInput('diametralPitch')
       const acceleratedWearConstant = 0.0025
       const [userTeethCount, userDiametralPitch] = userInputs
 
@@ -55,11 +52,6 @@ const geartrainCalculator: Calculator = [
         data: PD,
         mutable: true
       }
-
-      // currentCalculation.setOutput('pitchDiameter', PD)
-
-      // return currentCalculation.getOutput('pitchDiameter') ?? null
-
     }
   )
 ]
